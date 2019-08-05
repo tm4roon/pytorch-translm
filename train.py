@@ -45,7 +45,6 @@ def main(args):
     slen_filter = lambda x: args.src_minlen <= len(x.src) <= args.src_maxlen \
                          and args.tgt_minlen <= len(x.tgt) <= args.tgt_maxlen
 
-
     # load training data
     train_data = data.TabularDataset(
             path=args.train,
@@ -129,7 +128,8 @@ def main(args):
         best_loss = load_vars['best_loss']
         lm_args, lm_weights = load_vars['args'], load_vars['weights']
         model = TransformerLM(TEXT, lm_args)
-        model.load_state_dict(lm_weight)
+        model.load_state_dict(lm_weights)
+        model.to(device)
 
     criterion = nn.CrossEntropyLoss(ignore_index=TEXT.vocab.stoi['<pad>'])
     task = TranslationLM(model, criterion)
