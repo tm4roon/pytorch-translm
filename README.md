@@ -1,6 +1,6 @@
 # Monolingual Translation with Language Model
 
-Transformer-based Language Modelを単言語内翻訳に適用。原言語側の文と目的言語側の文を区切りトークン<SEP>で結合し、入力する。入力単語に対して、次の単語を予測するように出力させる。
+Transformer-based Language Modelを単言語内翻訳に適用。原言語側の文と目的言語側の文を区切りトークン\<SEP\>で結合し、入力する。入力単語に対して、次の単語を予測するように出力させる。
 
 - train.py: Transformer-based language modelの学習を行うスクリプト
 - generate.py: 学習済みモデルをロードして、入力データを翻訳するスクリプト
