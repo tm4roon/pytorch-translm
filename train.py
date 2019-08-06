@@ -198,18 +198,17 @@ def main(args):
         print(f'| clip {args.clip} ', end='')
         print(f'| num_updates {trainer.n_updates} |')
 
-        model_loss = train_loss if args.valid is None else valid_loss
-
         # saving model
         save_vars = {
             'epoch': epoch,
             'iteration': trainer.n_updates,
-            'best_loss': model_loss if model_loss < best_loss else best_loss,
+            'best_loss': valid_loss if valid_loss < best_loss else best_loss,
             'args': args, 
             'weights': model.state_dict()
         }
 
-        if model_loss < best_loss:
+        if valid_loss < best_loss:
+            best_loss = valid_loss
             filename = os.path.join(args.savedir, 'checkpoint_best.pt') 
             torch.save(save_vars, filename)
         if epoch % args.save_epoch == 0:
@@ -219,7 +218,7 @@ def main(args):
         torch.save(save_vars, filename)
 
         # update
-        trainer.scheduler.step(model_loss)
+        trainer.scheduler.step(best_loss)
         epoch += 1
 
  

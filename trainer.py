@@ -28,7 +28,6 @@ class Trainer(object):
         return loss
 
 
-
 class Task(object):
     def __init__(self, model, criterion):
         self.model = model
@@ -41,7 +40,6 @@ class Task(object):
 class TranslationLM(Task):
     def __init__(self, model, criterion):
         super().__init__(model, criterion)
-        self.task_name = 'CLM'
 
     def loss(self, srcs, tgts, refs=None):
         slen, bsz = srcs.size()
