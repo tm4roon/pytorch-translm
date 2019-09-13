@@ -12,8 +12,8 @@ the strong baselines in text summarization task.
 
 ## Installation
 ```sh
-git clone https://github.com/marucha80t/monolingual_translation_with_language_model.git
-cd ./monolingual_translation_with_language_model
+git clone https://github.com/maru0kun/pytorch-translm.git
+cd ./pytorch-translm
 pip install -r requirements.txt
 ```
 <br>
