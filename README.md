@@ -20,14 +20,15 @@ pip install -r requirements.txt
 
 
 ## Usages
-### Training
-The datasets for training and validation are must be tsv format.
-The source senteces and target sentences must be segmented to words by whitespace.
+### Pre-training
+
+### Fine-tuning
+The dataset for fine-tuning must be tsv format.
+The source senteces and target sentences must be segmented by whitespace.
 If you want to use gpu, please set option `--gpu`.
-Also, if you want to train a model again, you can use `--re-training /path/to/model`.
 
 ```sh
-python train.py --train ./data/sample_train.tsv --valid ./data/sample_valid.tsv --savedir ./checkpoints --gpu
+python train.py --finetune ./checkpoints/pre-trained/checkpoint_best.pt --train ./data/sample_train.tsv --valid ./data/sample_valid.tsv --savedir ./checkpoints --gpu
 ```
 
 ### Translation
