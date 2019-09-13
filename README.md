@@ -1,10 +1,10 @@
 # Monolingual Translation with Language Model
 An implimentation of transformer-based language model for monolingual translation tasks
 such as summarization, text simplification, and grammatical error correction.
-The following figure is the architecture overview. This model recives a input that
+The following figure shows the architecture overview. This model recives a input that
 joint original sentence and simplified sentence by special token \<SEP\>, which means
-the delimiter. This model is very simple, but significantly outperforms 
-the strong baselines in text summarization task.
+the delimiter. Then, the model geneate target sentences. 
+This model is very simple, but significantly outperforms the strong baselines in text summarization task and text simplification task.
 
 ![]()
 <br>
