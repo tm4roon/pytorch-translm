@@ -1,9 +1,41 @@
 # -*- coding: utf-8 -*-
 
-def train_opts(parser):
-    group = parser.add_argument_group('Training')
+
+def pretrain_opts(parser):
+    group = parser.add_argument_group('Pre-raining')
     group.add_argument('--re-training', default=None,
         help='path to trained model')
+    group.add_argument('--train', default='./samples/sample_train.txt',
+        help='filename of the train data')
+    group.add_argument('--valid', default=None,
+        help='filename of the validation data')
+    group.add_argument('--bptt-len', type=int, default=128,
+        help='length of sequences for backpropagation through time')
+    group.add_argument('--batch-size', type=int, default=64, 
+        help='batch size')
+    group.add_argument('--savedir', default='./checkpoints/pre-trained', 
+        help='path to save models')
+    group.add_argument('--max-epoch', type=int, default=30, 
+        help='number of epochs')
+    group.add_argument('--lr', type=float, default=0.25,
+        help='learning rate')
+    group.add_argument('--min-lr', type=float, default=1e-5, 
+        help='minimum learning rate')
+    group.add_argument('--clip', type=float, default=1.0,
+        help='gradient cliping')
+    group.add_argument('--gpu', action='store_true',
+        help='whether gpu is used')
+    group.add_argument('--optimizer', choices=['sgd', 'adam', 'adagrad'],
+        default='sgd', help='optimizer')
+    group.add_argument('--save-epoch', type=int, default=10)
+
+
+def finetune_opts(parser):
+    group = parser.add_argument_group('Training')
+    group.add_argument('--finetune', default=None,
+        help='path to pre-trained model')
+    # group.add_argument('--re-training', default=None,
+    #     help='path to trained model')
     group.add_argument('--train', default='./samples/sample_train.tsv',
         help='filename of the train data')
     group.add_argument('--valid', 
@@ -19,12 +51,10 @@ def train_opts(parser):
         help='maximum sentence length of target side')
     group.add_argument('--batch-size', type=int, default=64, 
         help='batch size')
-    group.add_argument('--savedir', default='./checkpoints', 
+    group.add_argument('--savedir', default='./checkpoints/fine-tuned', 
         help='path to save models')
-    group.add_argument('--max-epoch', type=int, default=0, 
+    group.add_argument('--max-epoch', type=int, default=30, 
         help='number of epochs')
-    group.add_argument('--max-update', type=int, default=0,
-        help='number of updates')
     group.add_argument('--lr', type=float, default=0.25,
         help='learning rate')
     group.add_argument('--min-lr', type=float, default=1e-5, 
@@ -58,6 +88,8 @@ def model_opts(parser):
         help='dropout after activation fucntion in self attention')
     group.add_argument('--attention-dropout', type=float, default=0.1,
         help='dropout in self attention')
+    group.add_argument('--normalize-before', action='store_true',
+        help='apply layernorm before each decoder block')
     return group
 
 

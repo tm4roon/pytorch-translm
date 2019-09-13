@@ -10,7 +10,7 @@ from torchtext import data
 
 from options import generate_opts
 import utils
-from models.transformer import TransformerLM
+from models.transformer import TranslationLM
 
 
 def main(args):
@@ -36,7 +36,7 @@ def main(args):
         sort=False,
     )
 
-    model = TransformerLM(TEXT, lm_args).to(device)
+    model = TranslationLM(TEXT, lm_args).to(device)
     model.load_state_dict(weights)
     
     model.eval()

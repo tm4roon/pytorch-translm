@@ -9,11 +9,10 @@ import torch.nn.functional as F
 from .positional_embedding import SinusoidalPositionalEmbedding
 
 from .multihead_attention import MultiheadAttn
-from .utils import Linear
-
-
-def fill_ninf(t):
-    return t.float().fill_(float('-inf')).type_as(t)
+from .utils import (
+    fill_ninf,
+    Linear,
+)
 
 
 class TransformerDecoder(nn.Module):
@@ -83,6 +82,7 @@ class TransformerDecoderLayer(nn.Module):
         self.hidden_dim = args.hidden_dim
         self.n_heads = args.heads
 
+        self.normalize_before = args.normalize_before
         self.self_attn = MultiheadAttn(
             self.embed_dim, self.n_heads, dout=self.attention_dropout)
         self.self_attn_layer_norm = nn.LayerNorm(self.embed_dim)
@@ -101,6 +101,7 @@ class TransformerDecoderLayer(nn.Module):
 
     def forward(self, x, enc_out, enc_pad_mask, attn_mask, dec_pad_mask, incremental_state=None):
         residual = x
+        x = self.maybe_normalize(self.self_attn_layer_norm, x, before=True)
         x, _ = self.self_attn(
             query=x, 
             key=x, 
@@ -112,10 +113,11 @@ class TransformerDecoderLayer(nn.Module):
         )
         x = F.dropout(x, p=self.dropout, training=self.training)
         x = residual + x
-        x = self.self_attn_layer_norm(x)
+        x = self.maybe_normalize(self.self_attn_layer_norm, x, after=True)
 
         if self.enc_attn is not None:
             residual = x
+            x = self.maybe_normalize(self.enc_attn_layer_norm, x, before=True)
             x, attn = self.enc_attn(
                 query=x,
                 key=enc_out,
@@ -126,69 +128,21 @@ class TransformerDecoderLayer(nn.Module):
             )
             x = F.dropout(x, p=self.dropout, training=self.training)
             x = residual + x
-            x = self.enc_attn_layer_norm(x)
+            x = self.maybe_normalize(self.enc_attn_layer_norm, x, after=True)
 
         residual = x
+        x = self.maybe_normalize(self.final_layer_norm, x, before=True)
         x = F.relu(self.fc1(x))
         x = F.dropout(x, p=self.activation_dropout, training=self.training)
         x = self.fc2(x)
         x = F.dropout(x, p=self.dropout, training=self.training)
         x = residual + x
-        x = self.final_layer_norm(x)
+        x = self.maybe_normalize(self.final_layer_norm, x, after=True)
         return x
 
-
-class TransformerDecoderforLM(TransformerDecoder):
-    def __init__(self, field, args):
-        super().__init__(field, args, no_enc_attn=True)
-        self.sep_idx = field.vocab.stoi['<sep>']
-
-    def forward(self, srcs, tgts=None, incremental_state=None):
-        # embed positions
-        inputs = srcs
-        positions = self.p_embed(inputs, incremental_state=None)
-
-        # for translation
-        if tgts is not None:
-            ones = torch.ones_like(srcs[0].unsqueeze(0))
-            tpos = self.p_embed(
-                torch.cat((ones*self.pad_idx, tgts)),
-                incremental_state=incremental_state
-            )
-            positions = torch.cat((positions, tpos))
-            inputs = torch.cat((inputs, ones*self.sep_idx, tgts))
-
-        x = self.w_embed(inputs)
-        x *= self.embed_scale
-        x += positions
-        x = F.dropout(x, p=self.dropout, training=self.training)
-
-        # padding mask
-        decoder_pad_mask = inputs.eq(self.pad_idx)
-        if not decoder_pad_mask.any():
-            decoder_pad_mask = None
-
-        delim_idx = 1 if tgts is None else len(srcs)+1
-        self_attn_mask = self.buffered_future_mask(x, delim_idx)
-
-        # decoder layers
-        for layer in self.layers:
-            x = layer(
-                x, 
-                None,
-                None,
-                self_attn_mask,
-                decoder_pad_mask,
-                incremental_state,
-           )
-        x = self.out_projection(x)
-        return x
-
-    def buffered_future_mask(self, tensor, delim_idx=1):
-        dim = tensor.size(0)
-        if not hasattr(self, '_future_mask') or self._future_mask is None:
-            self._future_mask = torch.triu(fill_ninf(tensor.new(dim, dim)), delim_idx)
-        if self._future_mask.size(0) < dim:
-            self._future_mask = torch.triu(
-                fill_ninf(self._future_mask.resize_(dim, dim)), 1)
-        return self._future_mask[:dim, :dim]
+    def maybe_normalize(self, layer_norm, x, before=False, after=False):
+        assert before ^ after
+        if after ^ self.normalize_before:
+            return layer_norm(x)
+        else:
+            return x

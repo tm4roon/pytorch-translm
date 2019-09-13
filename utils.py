@@ -36,16 +36,25 @@ def get_examples(samples, name):
         return samples.tgt
 
 
-def get_statics(iterator, name, field):
-    pad_idx = field.vocab.stoi['<pad>']
-    unk_idx = field.vocab.stoi['<unk>']
-    n_tokens = 0
-    n_unk = 0 
-    for samples in iterator:
-        examples = get_examples(samples, name)
-        n_tokens += torch.sum(examples.ne(pad_idx).view(-1)).item()
-        n_unk += torch.sum(examples.eq(unk_idx).view(-1)).item()
-    return n_tokens, n_unk
+
+
+def get_stats(iterator, fields):
+    def calc_stats(iterator, name, field):
+        pad_idx = field.vocab.stoi['<pad>']
+        unk_idx = field.vocab.stoi['<unk>']
+        n_tokens = 0
+        n_unk = 0 
+        for samples in iterator:
+            examples = get_examples(samples, name)
+            n_tokens += torch.sum(examples.ne(pad_idx).view(-1)).item()
+            n_unk += torch.sum(examples.eq(unk_idx).view(-1)).item()
+        return n_tokens, n_unk
+
+    for name, field in fields:
+        n_tokens, n_unk = calc_stats(iterator, name, field)
+        print(f'| [{name}] {n_tokens} tokens,', end='')
+        print(f' coverage: {100*(n_tokens-n_unk)/n_tokens:.{4}}%')
+    print('')
 
 
 def load_vector(embed_path):
