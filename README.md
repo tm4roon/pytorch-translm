@@ -19,7 +19,6 @@ pip install -r requirements.txt
 ```
 <br>
 
-
 ## Usages
 ### Pre-training
 The dataset for fine-tuning must be a text file. The input sentence must be segmented to words by whitespace. If you want to use GPU, please set the option `--gpu`.
@@ -30,7 +29,7 @@ python train.py pretrain \
     --savedir ./checkpoints/pre-trained \
     --gpu
 ```
-
+<br>
 
 ### Fine-tuning
 The dataset for fine-tuning must be TSV format. The source sentences and target sentences must be segmented to words by whitespace. If you want to use GPU, please set the option `--gpu`.
@@ -43,6 +42,7 @@ python train.py finetune \
     --savedir ./checkpoints/fine-tuned \
     --gpu
 ```
+<br>
 
 ### Translation
 In the translation step, you must set the option `--model` and `--input`. You can set sentence length of the model's output using the `--maxlen` option (default: 100 tokens).
@@ -53,11 +53,9 @@ python generate.py \
     --input ./data/sample_test.txt \
     --gpu
 ```
-
 <br>
 
-
 ## References
-- [Sample Efficient Text Summarization Using a Single Pre-Trained Transformer](https://arxiv.org/abs/1905.08836)
-- [Efficient Adaptation of Pretrained Transformers for Abstractive Summarization](https://arxiv.org/abs/1906.00138)
+- [Khandelwal, Urvashi, et al. "Sample Efficient Text Summarization Using a Single Pre-Trained Transformer." arXiv preprint arXiv:1905.08836 (2019).](https://arxiv.org/abs/1905.08836)
+- [Hoang, Andrew, et al. "Efficient Adaptation of Pretrained Transformers for Abstractive Summarization." arXiv preprint arXiv:1906.00138 (2019).](https://arxiv.org/abs/1906.00138)
 
