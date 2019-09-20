@@ -56,6 +56,6 @@ python generate.py \
 <br>
 
 ## References
-- [Khandelwal, Urvashi, et al. "Sample Efficient Text Summarization Using a Single Pre-Trained Transformer." arXiv preprint arXiv:1905.08836 (2019).](https://arxiv.org/abs/1905.08836)
-- [Hoang, Andrew, et al. "Efficient Adaptation of Pretrained Transformers for Abstractive Summarization." arXiv preprint arXiv:1906.00138 (2019).](https://arxiv.org/abs/1906.00138)
+- [Urvashi Khandelwal, Kevin Clark, Dan Jurafsky, Lukasz Kaiser. "Sample Efficient Text Summarization Using a Single Pre-Trained Transformer." arXiv preprint arXiv:1905.08836 (2019).](https://arxiv.org/abs/1905.08836)
+- [Andrew Hoang, Antoine Bosselut, Asli Celikyilmaz, Yejin Choi. "Efficient Adaptation of Pretrained Transformers for Abstractive Summarization." arXiv preprint arXiv:1906.00138 (2019).](https://arxiv.org/abs/1906.00138)
 
