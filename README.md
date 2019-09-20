@@ -1,4 +1,4 @@
-# Monolingual Translation with Language Model
+# Sentence Rewriting with Language Model
 An implementation of the transformer-based language model for sentence rewriting tasks such as summarization, text simplification, paraphrase generation, style transfer, and grammatical error correction. The following figure shows the architecture overview. This model receives an input that joint original sentence and simplified sentence by special token \<SEP\>, which means the delimiter. Then, the model generates target sentences. This architecture is very simple, but have shown the great result in text summarization task and text simplification task.  
 <br>
 
