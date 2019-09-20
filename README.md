@@ -6,9 +6,10 @@ The following figure shows the architecture overview. This model recives a input
 that joint original sentence and simplified sentence by special token \<SEP\>, 
 which means the delimiter. Then, the model geneate target sentences. 
 This architechture is very simple, but have shown great result in 
-text summarization task and text simplification task.
-![translm](https://user-images.githubusercontent.com/53220859/65313114-ccf70f00-dbce-11e9-822c-338fac8520e7.png)
+text summarization task and text simplification task.  
+<br>
 
+<img src="https://user-images.githubusercontent.com/53220859/65313114-ccf70f00-dbce-11e9-822c-338fac8520e7.png" width="500">
 <br>
 
 
