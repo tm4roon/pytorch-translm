@@ -1,12 +1,5 @@
 # Monolingual Translation with Language Model
-An implimentation of transformer-based language model for sentence rewriting tasks
-such as summarization, text simplification, paraphrase generaation,
-style transfer, and grammatical error correction.
-The following figure shows the architecture overview. This model recives a input 
-that joint original sentence and simplified sentence by special token \<SEP\>, 
-which means the delimiter. Then, the model geneate target sentences. 
-This architechture is very simple, but have shown great result in 
-text summarization task and text simplification task.  
+An implementation of the transformer-based language model for sentence rewriting tasks such as summarization, text simplification, paraphrase generation, style transfer, and grammatical error correction. The following figure shows the architecture overview. This model receives an input that joint original sentence and simplified sentence by special token \<SEP\>, which means the delimiter. Then, the model generates target sentences. This architecture is very simple, but have shown the great result in text summarization task and text simplification task.  
 <br>
 
 <img src="https://user-images.githubusercontent.com/53220859/65313114-ccf70f00-dbce-11e9-822c-338fac8520e7.png" width="500">
@@ -20,7 +13,7 @@ This code are depend on the following.
 - torchtext==0.3.1
 
 ```sh
-git clone https://github.com/maru0kun/pytorch-translm.git
+git clone https://github.com/t080/pytorch-translm.git
 cd ./pytorch-translm
 pip install -r requirements.txt
 ```
@@ -29,9 +22,7 @@ pip install -r requirements.txt
 
 ## Usages
 ### Pre-training
-The dataset for fine-tuning must be text file.
-The input sentence must be segmented to words by whitespace.
-If you want to use gpu, please set option `--gpu`.
+The dataset for fine-tuning must be a text file. The input sentence must be segmented to words by whitespace. If you want to use GPU, please set the option `--gpu`.
 
 ```sh
 python train.py pretrain \
@@ -42,9 +33,7 @@ python train.py pretrain \
 
 
 ### Fine-tuning
-The dataset for fine-tuning must be tsv format.
-The source senteces and target sentences must be segmented to words by whitespace.
-If you want to use gpu, please set option `--gpu`.
+The dataset for fine-tuning must be TSV format. The source sentences and target sentences must be segmented to words by whitespace. If you want to use GPU, please set the option `--gpu`.
 
 ```sh
 python train.py finetune \
@@ -56,8 +45,7 @@ python train.py finetune \
 ```
 
 ### Translation
-In translation step, you must set option `--model` and `--input`.
-You can set sentence length of model's output using `--maxlen` option (default: 100 tokens).
+In the translation step, you must set the option `--model` and `--input`. You can set sentence length of the model's output using the `--maxlen` option (default: 100 tokens).
 
 ```sh
 python generate.py \
