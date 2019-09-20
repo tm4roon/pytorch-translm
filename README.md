@@ -50,7 +50,7 @@ In the translation step, you must set the option `--model` and `--input`. You ca
 ```sh
 python generate.py \
     --model ./checkpoints/fine-tuned/checkpoint_best.pt \
-    --input ./data/sample_test.txt \
+    --input ./path/to/test.txt \
     --gpu
 ```
 <br>
