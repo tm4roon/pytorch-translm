@@ -28,14 +28,10 @@ def save_vocab(savedir, fields):
 
 
 def get_examples(samples, name):
-    if name == 'text':
-        return samples.text
     if name == 'src': 
         return samples.src
     elif name == 'tgt': 
         return samples.tgt
-
-
 
 
 def get_stats(iterator, fields):

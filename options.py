@@ -3,8 +3,8 @@
 
 def pretrain_opts(parser):
     group = parser.add_argument_group('Pre-raining')
-    group.add_argument('--re-training', default=None,
-        help='path to trained model')
+    group.add_argument('--model', default=None,
+        help='path to pre-trained model')
     group.add_argument('--train', default='./samples/sample_train.txt',
         help='filename of the train data')
     group.add_argument('--valid', default=None,
@@ -32,10 +32,8 @@ def pretrain_opts(parser):
 
 def finetune_opts(parser):
     group = parser.add_argument_group('Training')
-    group.add_argument('--finetune', default=None,
+    group.add_argument('--model', default=None,
         help='path to pre-trained model')
-    # group.add_argument('--re-training', default=None,
-    #     help='path to trained model')
     group.add_argument('--train', default='./samples/sample_train.tsv',
         help='filename of the train data')
     group.add_argument('--valid', 
@@ -96,7 +94,7 @@ def model_opts(parser):
 def generate_opts(parser):
     group = parser.add_argument_group('Generation')
     group.add_argument('--model', 
-        default='./checkpoints/checkpoint_best.pt',
+        default='./checkpoints/fine-tuned/checkpoint_best.pt',
         help='model file for translation')
     group.add_argument('--input', default='./samples/sample_test.txt',
         help='input file')
