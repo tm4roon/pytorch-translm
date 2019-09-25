@@ -2,7 +2,9 @@
 An implementation of the transformer-based language model for sentence rewriting tasks such as summarization, text simplification, paraphrase generation, style transfer, and grammatical error correction. The following figure shows the architecture overview. This model receives an input that joint original sentence and simplified sentence by special token \<SEP\>, which means the delimiter. Then, the model generates target sentences. This architecture is very simple, but have shown the great result in text summarization task and text simplification task.  
 <br>
 
-<img src="https://user-images.githubusercontent.com/53220859/65313114-ccf70f00-dbce-11e9-822c-338fac8520e7.png" width="500">
+<p align=center>
+<img src="https://user-images.githubusercontent.com/53220859/65313114-ccf70f00-dbce-11e9-822c-338fac8520e7.png" width="400">
+</p>
 <br>
 
 
